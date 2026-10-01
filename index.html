@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NihonGO - Japanese Learning App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>NihonGO</h1>
+    <nav>
+        <button class="nav-btn active" data-target="hiragana-section">Hiragana</button>
+        <button class="nav-btn" data-target="katakana-section">Katakana</button>
+        <button class="nav-btn" data-target="kanji-hub">Kanji</button>
+    </nav>
+</header>
+
+<main>
+  <!-- ==================== HIRAGANA ==================== -->
+  <section id="hiragana-section" class="app-section">
+    <h2>Hiragana</h2>
+    <div class="sub-nav">
+      <button class="active" data-target="hiragana-section-1">1. Chart &amp; Practice</button>
+      <button data-target="hiragana-section-2">2. Vocabulary</button>
+      <button data-target="hiragana-section-3">3. Conversation</button>
+    </div>
+    <div id="hiragana-section-1" class="sub-section">
+      <h3>Hiragana Chart &amp; Practice</h3>
+      <button id="hira-toggle-btn" class="toggle-btn">Hide Full Chart</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="hira-grid" class="kana-chart"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="hira-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="hira-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="hira-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="hira-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            
+            <div id="hira-display" class="char-box"></div>
+            <div class="typing-zone" id="hira-typing-zone">
+              <p>Type Romaji: <strong id="hira-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="hira-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="hira-canvas-zone">
+              <p>Trace &amp; draw: <strong id="hira-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="hira-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="hira-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="hira-clear-btn" class="clear-btn">Clear</button>
+                <button id="hira-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="hiragana-section-2" class="sub-section hidden">
+      <h3>Hiragana Vocabulary</h3>
+      <button id="hvocab-toggle-btn" class="toggle-btn">Hide Word List</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="hvocab-grid" class="vocab-list"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="hvocab-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="hvocab-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="hvocab-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="hvocab-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="hvocab-english" class="meta-english"></div></div>
+            <div id="hvocab-display" class="char-box vocab-box"></div>
+            <div class="typing-zone" id="hvocab-typing-zone">
+              <p>Type Romaji: <strong id="hvocab-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="hvocab-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="hvocab-canvas-zone">
+              <p>Trace &amp; draw: <strong id="hvocab-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="hvocab-canvas" width="360" height="140" class="drawing-canvas"></canvas>
+              <div id="hvocab-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="hvocab-clear-btn" class="clear-btn">Clear</button>
+                <button id="hvocab-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="hiragana-section-3" class="sub-section hidden">
+      <h3>Hiragana Conversation</h3>
+      <div class="chat-box">
+        <div id="hchat-history" class="chat-history"></div>
+        <p id="hchat-instruction" class="chat-instruction"></p>
+        <p id="hchat-hint" class="hint-text"></p>
+        <div class="chat-input-row">
+          <input type="text" id="hchat-input" placeholder="Type your reply in romaji..." autocomplete="off">
+          <button id="hchat-send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KATAKANA ==================== -->
+  <section id="katakana-section" class="app-section hidden">
+    <h2>Katakana</h2>
+    <div class="sub-nav">
+      <button class="active" data-target="katakana-section-1">1. Chart &amp; Practice</button>
+      <button data-target="katakana-section-2">2. Vocabulary</button>
+      <button data-target="katakana-section-3">3. Conversation</button>
+    </div>
+    <div id="katakana-section-1" class="sub-section">
+      <h3>Katakana Chart &amp; Practice</h3>
+      <button id="kata-toggle-btn" class="toggle-btn">Hide Full Chart</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kata-grid" class="kana-chart"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kata-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kata-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kata-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kata-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            
+            <div id="kata-display" class="char-box"></div>
+            <div class="typing-zone" id="kata-typing-zone">
+              <p>Type Romaji: <strong id="kata-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kata-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kata-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kata-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kata-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kata-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kata-clear-btn" class="clear-btn">Clear</button>
+                <button id="kata-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="katakana-section-2" class="sub-section hidden">
+      <h3>Katakana Vocabulary</h3>
+      <button id="kvocab-toggle-btn" class="toggle-btn">Hide Word List</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kvocab-grid" class="vocab-list"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kvocab-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kvocab-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kvocab-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kvocab-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="kvocab-english" class="meta-english"></div></div>
+            <div id="kvocab-display" class="char-box vocab-box"></div>
+            <div class="typing-zone" id="kvocab-typing-zone">
+              <p>Type Romaji: <strong id="kvocab-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kvocab-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kvocab-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kvocab-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kvocab-canvas" width="360" height="140" class="drawing-canvas"></canvas>
+              <div id="kvocab-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kvocab-clear-btn" class="clear-btn">Clear</button>
+                <button id="kvocab-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="katakana-section-3" class="sub-section hidden">
+      <h3>Katakana Conversation</h3>
+      <div class="chat-box">
+        <div id="kchat-history" class="chat-history"></div>
+        <p id="kchat-instruction" class="chat-instruction"></p>
+        <p id="kchat-hint" class="hint-text"></p>
+        <div class="chat-input-row">
+          <input type="text" id="kchat-input" placeholder="Type your reply in romaji..." autocomplete="off">
+          <button id="kchat-send-btn">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KANJI ==================== -->
+  <section id="kanji-hub" class="app-section hidden">
+    <h2>Kanji Practice Hub</h2>
+    <div class="sub-nav">
+      <button class="active" data-target="kanji-section-1">1. Numbers</button>
+      <button data-target="kanji-section-2">2. Nature</button>
+      <button data-target="kanji-section-3">3. Verbs</button>
+      <button data-target="kanji-section-4">4. People</button>
+      <button data-target="kanji-section-5">5. Time &amp; Concepts</button>
+    </div>
+    <div id="kanji-section-1" class="sub-section">
+      <h3>Section 1 (Numbers 1-100)</h3>
+      <button id="kanji-num-toggle-btn" class="toggle-btn">Hide Counting Chart</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kanji-num-grid" class="kanji-grid"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kanji-num-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kanji-num-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kanji-num-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kanji-num-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            
+            <div id="kanji-num-display" class="char-box kanji-large"></div>
+            <div class="typing-zone" id="kanji-num-typing-zone">
+              <p>Type Romaji: <strong id="kanji-num-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kanji-num-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kanji-num-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kanji-num-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kanji-num-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kanji-num-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kanji-num-clear-btn" class="clear-btn">Clear</button>
+                <button id="kanji-num-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="kanji-section-2" class="sub-section hidden">
+      <h3>Section 2 (Nature &amp; Objects)</h3>
+      <button id="kanji-nature-toggle-btn" class="toggle-btn">Hide Kanji Grid</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kanji-nature-grid" class="kanji-grid columns-4"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kanji-nature-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kanji-nature-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kanji-nature-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kanji-nature-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="kanji-nature-english" class="meta-english"></div><div id="kanji-nature-readings" class="meta-readings"></div></div>
+            <div id="kanji-nature-display" class="char-box kanji-large"></div>
+            <div class="typing-zone" id="kanji-nature-typing-zone">
+              <p>Type Romaji: <strong id="kanji-nature-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kanji-nature-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kanji-nature-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kanji-nature-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kanji-nature-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kanji-nature-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kanji-nature-clear-btn" class="clear-btn">Clear</button>
+                <button id="kanji-nature-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="kanji-section-3" class="sub-section hidden">
+      <h3>Section 3 (Action Verbs)</h3>
+      <button id="kanji-verbs-toggle-btn" class="toggle-btn">Hide Verb Grid</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kanji-verbs-grid" class="kanji-grid columns-3"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kanji-verbs-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kanji-verbs-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kanji-verbs-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kanji-verbs-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="kanji-verbs-english" class="meta-english"></div></div>
+            <div id="kanji-verbs-display" class="char-box kanji-large flex-baseline"><span id="kv-stem"></span><span id="kv-okurigana" class="okurigana"></span></div>
+            <div class="typing-zone" id="kanji-verbs-typing-zone">
+              <p>Type Romaji: <strong id="kanji-verbs-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kanji-verbs-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kanji-verbs-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kanji-verbs-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kanji-verbs-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kanji-verbs-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kanji-verbs-clear-btn" class="clear-btn">Clear</button>
+                <button id="kanji-verbs-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="kanji-section-4" class="sub-section hidden">
+      <h3>Section 4 (People &amp; Body)</h3>
+      <button id="kanji-people-toggle-btn" class="toggle-btn">Hide Kanji Grid</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kanji-people-grid" class="kanji-grid columns-4"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kanji-people-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kanji-people-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kanji-people-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kanji-people-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="kanji-people-english" class="meta-english"></div><div id="kanji-people-readings" class="meta-readings"></div></div>
+            <div id="kanji-people-display" class="char-box kanji-large"></div>
+            <div class="typing-zone" id="kanji-people-typing-zone">
+              <p>Type Romaji: <strong id="kanji-people-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kanji-people-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kanji-people-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kanji-people-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kanji-people-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kanji-people-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kanji-people-clear-btn" class="clear-btn">Clear</button>
+                <button id="kanji-people-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="kanji-section-5" class="sub-section hidden">
+      <h3>Section 5 (Concepts &amp; Time)</h3>
+      <button id="kanji-concepts-toggle-btn" class="toggle-btn">Hide Kanji Grid</button>
+      <div class="split-layout">
+        <div class="grid-container"><div id="kanji-concepts-grid" class="kanji-grid columns-4"></div></div>
+        <div class="practice-side">
+          <div class="controls kanji-controls">
+            <div><strong>Mode:</strong>
+              <label><input type="radio" name="kanji-concepts-mode" value="typing" checked> Typing</label>
+              <label><input type="radio" name="kanji-concepts-mode" value="stroking"> Stroking</label></div>
+            <div><strong>Order:</strong>
+              <label><input type="radio" name="kanji-concepts-order" value="consecutive" checked> Consecutive</label>
+              <label><input type="radio" name="kanji-concepts-order" value="random"> Random</label></div>
+          </div>
+          <div class="practice-area">
+            <div class="kanji-meta"><div id="kanji-concepts-english" class="meta-english"></div><div id="kanji-concepts-readings" class="meta-readings"></div></div>
+            <div id="kanji-concepts-display" class="char-box kanji-large"></div>
+            <div class="typing-zone" id="kanji-concepts-typing-zone">
+              <p>Type Romaji: <strong id="kanji-concepts-typing-hint" class="hint-text"></strong></p>
+              <input type="text" id="kanji-concepts-input" placeholder="romaji, then press Enter" autocomplete="off">
+            </div>
+            <div class="canvas-zone hidden" id="kanji-concepts-canvas-zone">
+              <p>Trace &amp; draw: <strong id="kanji-concepts-stroke-hint" class="hint-text"></strong></p>
+              <canvas id="kanji-concepts-canvas" width="200" height="200" class="drawing-canvas"></canvas>
+              <div id="kanji-concepts-accuracy">Live Accuracy: --%</div>
+              <div class="button-group">
+                <button id="kanji-concepts-clear-btn" class="clear-btn">Clear</button>
+                <button id="kanji-concepts-next-btn">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ==================== SHARED CHARACTER MODAL ==================== -->
+<div id="character-modal" class="modal hidden">
+    <div class="modal-content">
+        <span id="close-modal" class="close-btn">&times;</span>
+        <div class="modal-body">
+            <div class="modal-canvas-container">
+                <canvas id="modal-canvas" width="160" height="160" class="drawing-canvas modal-canvas-bg"></canvas>
+                <button id="modal-clear-btn" class="clear-btn modal-clear-btn">Clear Canvas</button>
+            </div>
+            <div class="modal-text-container">
+                <h2 id="modal-title"></h2>
+                <div id="modal-details"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
