@@ -1,0 +1,11 @@
+Adding a vast and categorized Vocabulary.
+Adding of 2000 kanji characters, classified as per both type and N-lvl japanese.
+Major Upcoming Edit - Romanji text as target text and typing in japanese or stroking option.
+A japanese text input mode.
+Scenario based learning: Learn to 1.Introduce yourself.
+                                  2.Talk about family.
+                                  3.Talk about career.
+                                  4.Talk about places.
+
+                            
+Adding Language learning roadmaps according to the Language level, ie. N5, N4, N3, N2, and N1.
